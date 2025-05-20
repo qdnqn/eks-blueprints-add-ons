@@ -65,7 +65,7 @@ spec:
               domainFilters: 
                 - ikenna.dev
               txtOwnerId: {{.metadata.annotations.aws_cluster_name}}
-              policy: override
+              policy: sync
               sources:
                 - service
                 - ingress
