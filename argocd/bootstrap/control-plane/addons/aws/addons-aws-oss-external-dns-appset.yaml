@@ -15,7 +15,7 @@ spec:
               values:
                 addonChart: external-dns
                 # anything not staging or prod use this version
-                addonChartVersion: 1.13.0
+                addonChartVersion: 1.16.1
                 addonChartRepository: https://kubernetes-sigs.github.io/external-dns
               selector:
                 matchExpressions:
@@ -30,13 +30,13 @@ spec:
                 matchLabels:
                   environment: staging
               values:
-                addonChartVersion: 1.13.0
+                addonChartVersion: 1.16.1
           - clusters:
               selector:
                 matchLabels:
                   environment: prod
               values:
-                addonChartVersion: 1.13.0
+                addonChartVersion: 1.16.1
   template:
     metadata:
       name: 'addon-{{.name}}-{{.values.addonChart}}'
@@ -65,7 +65,11 @@ spec:
               domainFilters: 
                 - {{default "" .metadata.annotations.eks_cluster_domain}}
               txtOwnerId: {{.metadata.annotations.aws_cluster_name}}
-              policy: {{default "upsert-only" .metadata.annotations.external_dns_policy}}
+              policy: override
+              sources:
+                - service
+                - ingress
+                - traefik-proxy
       destination:
         namespace: '{{.metadata.annotations.external_dns_namespace}}'
         name: '{{.name}}'
