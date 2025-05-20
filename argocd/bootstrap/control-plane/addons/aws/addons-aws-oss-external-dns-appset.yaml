@@ -66,6 +66,8 @@ spec:
                 - ikenna.dev
               txtOwnerId: {{.metadata.annotations.aws_cluster_name}}
               policy: sync
+              extraArgs:
+                - "--traefik-disable-legacy"
               sources:
                 - service
                 - ingress
